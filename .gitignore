@@ -1,1 +1,4 @@
-/.config
+/config.php
+/.php-cs-fixer.cache
+/upload.sh
+
