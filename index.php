@@ -65,42 +65,30 @@ session_start();
     $sql = "SELECT Ssn,Fname,Lname,Salary, Address, Bdate, PayLevel(Ssn) as Level, Super_ssn, Dno
         FROM EMPLOYEE";
 */
-$sql = "SELECT Ssn,Fname,Lname,Salary, Address, Bdate, PayLevel(Ssn) as Level, Super_ssn, Dno
-							FROM EMPLOYEE";
+$sql = "SELECT cid, name, email, emergency_contact FROM customers";
 if ($result = mysqli_query($link, $sql)) {
     if (mysqli_num_rows($result) > 0) {
         echo "<table class='table table-bordered table-striped'>";
         echo "<thead>";
         echo "<tr>";
-        echo "<th width=8%>SSN</th>";
-        echo "<th width=10%>First Name</th>";
-        echo "<th width=10%>Last Name</th>";
-        echo "<th width=15%>Address </th>";
-        echo "<th width=10%>Birthdate </th>";
-        echo "<th width = 5%>Salary</th>";
-        echo "<th width=10%> Level  </th>";
-        echo "<th width =8%>Super SSN  </th>";
-        echo "<th width =5%>Dno  </th>";
+        echo "<th width=8%>cid</th>";
+        echo "<th width=10%>name</th>";
+        echo "<th width=10%>email</th>";
+        echo "<th width=15%>emergency_contact</th>";
         echo "<th width=10%>Action</th>";
         echo "</tr>";
         echo "</thead>";
         echo "<tbody>";
         while ($row = mysqli_fetch_array($result)) {
             echo "<tr>";
-            echo "<td>" . $row['Ssn'] . "</td>";
-            echo "<td>" . $row['Fname'] . "</td>";
-            echo "<td>" . $row['Lname'] . "</td>";
-            echo "<td>" . $row['Address'] . "</td>";
-            echo "<td>" . $row['Bdate'] . "</td>";
-            echo "<td>" . $row['Salary'] . "</td>";
-            echo "<td>" . $row['Level'] . "</td>";
-            echo "<td>" . $row['Super_ssn'] . "</td>";
-            echo "<td>" . $row['Dno'] . "</td>";
+            echo "<td>" . $row['cid'] . "</td>";
+            echo "<td>" . $row['name'] . "</td>";
+            echo "<td>" . $row['email'] . "</td>";
+            echo "<td>" . $row['emergency_contact'] . "</td>";
             echo "<td>";
-            echo "<a href='viewProjects.php?Ssn=". $row['Ssn']."&Lname=".$row['Lname']."' title='View Projects' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
-            echo "<a href='updateEmployee.php?Ssn=". $row['Ssn'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
-            echo "<a href='deleteEmployee.php?Ssn=". $row['Ssn'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
-            echo "<a href='viewDependents.php?Ssn=". $row['Ssn']."&Lname=".$row['Lname']."' title='View Dependents' data-toggle='tooltip'><span class='glyphicon glyphicon-user'></span></a>";
+            echo "<a href='viewTickets.php?cid=". $row['cid']."' title='View Tickets' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+            echo "<a href='updateCustomer.php?cid=". $row['cid'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
+            echo "<a href='deleteCustomer.php?cid=". $row['cid'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
             echo "</td>";
             echo "</tr>";
         }

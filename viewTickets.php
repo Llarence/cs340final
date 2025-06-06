@@ -8,7 +8,7 @@ require_once "config.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Projects</title>
+    <title>View Tickets</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
@@ -36,53 +36,57 @@ require_once "config.php";
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header clearfix">
-                        <h2 class="pull-left">View Projects</h2>
-						<a href="addProject.php" class="btn btn-success pull-right">Add Project</a>
+                        <h2 class="pull-left">View Tickets</h2>
+						<a href="addTicket.php" class="btn btn-success pull-right">Add Tickets</a>
                     </div>
 <?php
 
 // Check existence of id parameter before processing further
-if (isset($_GET["Ssn"]) && !empty(trim($_GET["Ssn"]))) {
-    $_SESSION["Ssn"] = $_GET["Ssn"];
-}
-if (isset($_GET["Lname"]) && !empty(trim($_GET["Lname"]))) {
-    $_SESSION["Lname"] = $_GET["Lname"];
+if (isset($_GET["cid"]) && !empty(trim($_GET["cid"]))) {
+    $_SESSION["cid"] = $_GET["cid"];
 }
 
-if (isset($_SESSION["Ssn"])) {
+if (isset($_SESSION["cid"])) {
 
     // Prepare a select statement
-    $sql = "SELECT P.Pname, P.Pnumber, WO.Hours, WO.Essn FROM PROJECT P, WORKS_ON WO WHERE WO.Essn = ? AND WO.Pno = P.Pnumber";
+    $sql = "SELECT cid, name, tid, departure, trid, rid, carry_on FROM tickets NATURAL JOIN customers WHERE cid=?";
 
     //$sql = "SELECT Essn, Pno, Hours From WORKS_ON WHERE Essn = ? ";
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "s", $param_Ssn);
+        mysqli_stmt_bind_param($stmt, "s", $param);
         // Set parameters
-        $param_Ssn = $_SESSION["Ssn"];
-        $Lname = $_SESSION["Lname"];
+        $param = $_SESSION["cid"];
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
             $result = mysqli_stmt_get_result($stmt);
 
-            echo"<h4> Projects for ".$Lname." &nbsp      SSN =".$param_Ssn."</h4><p>";
+            echo"<h4> Tickets for customer with cid =".$param."</h4><p>";
             if (mysqli_num_rows($result) > 0) {
                 echo "<table class='table table-bordered table-striped'>";
                 echo "<thead>";
                 echo "<tr>";
-                echo "<th width = 20%>Project Number</th>";
-                echo "<th>Project Name</th>";
-                echo "<th>Hours</th>";
+                echo "<th width = 8%>cid</th>";
+                echo "<th width = 10%>name</th>";
+                echo "<th width = 8%>tid</th>";
+                echo "<th width = 10%>departure</th>";
+                echo "<th width = 8%>trid</th>";
+                echo "<th width = 8%>rid</th>";
+                echo "<th width = 10%>carry_on</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
                 // output data of each row
                 while ($row = mysqli_fetch_array($result)) {
                     echo "<tr>";
-                    echo "<td>" . $row['Pnumber'] . "</td>";
-                    echo "<td>" . $row['Pname'] . "</td>";
-                    echo "<td>" . $row['Hours'] . "</td>";
+                    echo "<td>" . $row['cid'] . "</td>";
+                    echo "<td>" . $row['name'] . "</td>";
+                    echo "<td>" . $row['tid'] . "</td>";
+                    echo "<td>" . $row['departure'] . "</td>";
+                    echo "<td>" . $row['trid'] . "</td>";
+                    echo "<td>" . $row['rid'] . "</td>";
+                    echo "<td>" . $row['carry_on'] . "</td>";
 
                     echo "</tr>";
                 }
@@ -90,7 +94,7 @@ if (isset($_SESSION["Ssn"])) {
                 echo "</table>";
                 mysqli_free_result($result);
             } else {
-                echo "No Projects. ";
+                echo "No Tickets. ";
             }
             //				mysqli_free_result($result);
         } else {
