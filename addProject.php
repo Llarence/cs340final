@@ -1,74 +1,74 @@
 ﻿<?php
-	session_start();
-	ob_start();
-	$Ssn = $_SESSION["Ssn"];
-	$Lname = $_SESSION["Lname"];
-	// Include config file
-	require_once "config.php";
+session_start();
+ob_start();
+$Ssn = $_SESSION["Ssn"];
+$Lname = $_SESSION["Lname"];
+// Include config file
+require_once "config.php";
 
 ?>
 
 
-<?php 
-	// Define variables and initialize with empty values
-	$Pno = "";
-	$Pno_err = $Ssn_err = $Hours_err = "" ;
-	$SQL_err="";
- 
-	// Processing form data when form is submitted
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		// Validate Project number
-		$Pno = trim($_POST["Pno"]);
-		if(empty($Pno)){
-			$Pno_err = "Please select a project.";
-		} 
-    
-		// Validate Hours
-		$Hours = trim($_POST["Hours"]);
-		if(empty($Hours)){
-			$Hours_err = "Please enter hours (1-40)";     
-		}
-	
-		// Validate the SSN
-		if(empty($Ssn)){
-			$Ssn_err = "No SSN.";     
-		}
+<?php
+    // Define variables and initialize with empty values
+    $Pno = "";
+$Pno_err = $Ssn_err = $Hours_err = "" ;
+$SQL_err = "";
+
+// Processing form data when form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate Project number
+    $Pno = trim($_POST["Pno"]);
+    if (empty($Pno)) {
+        $Pno_err = "Please select a project.";
+    }
+
+    // Validate Hours
+    $Hours = trim($_POST["Hours"]);
+    if (empty($Hours)) {
+        $Hours_err = "Please enter hours (1-40)";
+    }
+
+    // Validate the SSN
+    if (empty($Ssn)) {
+        $Ssn_err = "No SSN.";
+    }
 
 
     // Check input errors before inserting in database
-		if(empty($Ssn_err) && empty($Hours_err) && empty($Pno_err) ){
+    if (empty($Ssn_err) && empty($Hours_err) && empty($Pno_err)) {
         // Prepare an insert statement
-			$sql = "INSERT INTO WORKS_ON (Essn, Pno, Hours) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO WORKS_ON (Essn, Pno, Hours) VALUES (?, ?, ?)";
 
 
-        	if($stmt = mysqli_prepare($link, $sql)){
+        if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-				mysqli_stmt_bind_param($stmt, 'sii', $param_Ssn, $param_Pno, $param_Hours);
-            
-				// Set parameters
-				$param_Ssn = $Ssn;
-				$param_Pno = $Pno;
-				$param_Hours = $Hours;
-        
+            mysqli_stmt_bind_param($stmt, 'sii', $param_Ssn, $param_Pno, $param_Hours);
+
+            // Set parameters
+            $param_Ssn = $Ssn;
+            $param_Pno = $Pno;
+            $param_Hours = $Hours;
+
             // Attempt to execute the prepared statement
-				if(mysqli_stmt_execute($stmt)){
-               // Records created successfully. Redirect to landing page
-				//    header("location: index.php");
-				//	exit();
-				} else{
-					// Error
-					echo "Error";
-					//exit();
-					$SQL_err = mysqli_error($link);
-				}
-			}
-         
+            if (mysqli_stmt_execute($stmt)) {
+                // Records created successfully. Redirect to landing page
+                //    header("location: index.php");
+                //	exit();
+            } else {
+                // Error
+                echo "Error";
+                //exit();
+                $SQL_err = mysqli_error($link);
+            }
+        }
+
         // Close statement
         mysqli_stmt_close($stmt);
-		
-	}   
-		// Close connection
-		mysqli_close($link);
+
+    }
+    // Close connection
+    mysqli_close($link);
 }
 ?>
 
@@ -96,17 +96,17 @@
                     </div>
 				
 <?php
-	echo $SQL_err;		
-	$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-	if (!$conn) {
-		die('Could not connect: ' . mysqli_error());
-	}
-	$sql = "SELECT Pnumber, Pname FROM PROJECT";
-	$result = mysqli_query($conn, $sql);
-	if (!$result) {
-		die("Query to show fields from table failed");
-	}
-	$num_row = mysqli_num_rows($result);	
+    echo $SQL_err;
+$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+if (!$conn) {
+    die('Could not connect: ' . mysqli_error());
+}
+$sql = "SELECT Pnumber, Pname FROM PROJECT";
+$result = mysqli_query($conn, $sql);
+if (!$result) {
+    die("Query to show fields from table failed");
+}
+$num_row = mysqli_num_rows($result);
 ?>	
 
 	<form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
@@ -115,11 +115,11 @@
 			<select name="Pno" class="form-control">
 			<?php
 
-				for($i=0; $i<$num_row; $i++) {
-					$Pnos=mysqli_fetch_row($result);
-					echo "<option value='$Pnos[0]' >".$Pnos[0]."  ".$Pnos[1]."</option>";
-				}
-			?>
+                for ($i = 0; $i < $num_row; $i++) {
+                    $Pnos = mysqli_fetch_row($result);
+                    echo "<option value='$Pnos[0]' >".$Pnos[0]."  ".$Pnos[1]."</option>";
+                }
+?>
 			</select>	
             <span class="help-block"><?php echo $Pno_err;?></span>
 		</div>
@@ -135,9 +135,9 @@
 
 		</div>
 	</form>
-<?php		
-	mysqli_free_result($result);
-	mysqli_close($conn);
+<?php
+    mysqli_free_result($result);
+mysqli_close($conn);
 ?>
 </body>
 

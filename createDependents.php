@@ -4,68 +4,75 @@ $Ssn = $_SESSION["Ssn"];
 
 // Include config file
 require_once "config.php";
- 
+
 // Define variables and initialize with empty values
-$Dname = $Relationship = $Bdate = $Sex ="" ;
-$Dname_err = $Relationship_err =  $Sex_err =$Bdate_err= "" ;
- 
+$Dname = $Relationship = $Bdate = $Sex = "" ;
+$Dname_err = $Relationship_err =  $Sex_err = $Bdate_err = "" ;
+
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate Dependent name
     $Dname = trim($_POST["Dname"]);
-    if(empty($Dname)){
+    if (empty($Dname)) {
         $Dname_err = "Please enter a Dname.";
-    } elseif(!filter_var($Dname, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
+    } elseif (!filter_var($Dname, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^[a-zA-Z\s]+$/")))) {
         $Dname_err = "Please enter a valid name.";
-    } 
+    }
     // Validate Relationship
     $Relationship = trim($_POST["Relationship"]);
-    if(empty($Relationship)){
+    if (empty($Relationship)) {
         $Relationship_err = "Please enter a Relationship.";
-    } elseif(!filter_var($Relationship, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
+    } elseif (!filter_var($Relationship, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^[a-zA-Z\s]+$/")))) {
         $Relationship_err = "Please enter a valid Relationship.";
-    } 
- 
-	// Validate Sex
-    $Sex = trim($_POST["Sex"]);
-    if(empty($Sex)){
-        $Sex_err = "Please enter Sex.";     
     }
-	// Validate Birthdate
+
+    // Validate Sex
+    $Sex = trim($_POST["Sex"]);
+    if (empty($Sex)) {
+        $Sex_err = "Please enter Sex.";
+    }
+    // Validate Birthdate
     $Bdate = trim($_POST["Bdate"]);
-    if(empty($Bdate)){
-        $Bdate_err = "Please enter birthdate.";     
-    }	
+    if (empty($Bdate)) {
+        $Bdate_err = "Please enter birthdate.";
+    }
 
     // Check input errors before inserting in database
-    if(empty($Dname_err) && empty($Relationship_err) && empty($Sex_err) && empty($Bdate_err)){
+    if (empty($Dname_err) && empty($Relationship_err) && empty($Sex_err) && empty($Bdate_err)) {
         // Prepare an insert statement
         $sql = "INSERT INTO DEPENDENT (Essn, Dependent_name, Sex, Bdate, Relationship) 
 		        VALUES (?, ?, ?, ?, ?)";
-         
-        if($stmt = mysqli_prepare($link, $sql)){
+
+        if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssss", $param_Ssn, $param_Dname, $param_Sex, 
-									$param_Bdate, $param_Relationship);
-           
+            mysqli_stmt_bind_param(
+                $stmt,
+                "sssss",
+                $param_Ssn,
+                $param_Dname,
+                $param_Sex,
+                $param_Bdate,
+                $param_Relationship
+            );
+
             // Set parameters
-			$param_Ssn = $Ssn;
-			$param_Dname = $Dname;
-			$param_Sex = $Sex;
-			$param_Bdate = $Bdate;
+            $param_Ssn = $Ssn;
+            $param_Dname = $Dname;
+            $param_Sex = $Sex;
+            $param_Bdate = $Bdate;
             $param_Relationship = $Relationship;
-            
+
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if (mysqli_stmt_execute($stmt)) {
                 // Records created successfully. Redirect to landing page
-				    header("location: index.php");
-					exit();
-            } else{
+                header("location: index.php");
+                exit();
+            } else {
                 echo "<center><h4>Error while creating new dependent</h4></center>";
-				$Dname_err = "Re-enter all values";
+                $Dname_err = "Re-enter all values";
             }
         }
-         
+
         // Close statement
         mysqli_stmt_close($stmt);
     }
