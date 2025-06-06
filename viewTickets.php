@@ -87,7 +87,9 @@ if (isset($_SESSION["cid"])) {
                     echo "<td>" . $row['trid'] . "</td>";
                     echo "<td>" . $row['rid'] . "</td>";
                     echo "<td>" . $row['carry_on'] . "</td>";
-
+                    echo "<td>";
+                    echo "<a href='deleteTickets.php?tid=". $row['tid'] ."' title='Delete Ticket' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+                    echo "<td>";
                     echo "</tr>";
                 }
                 echo "</tbody>";
