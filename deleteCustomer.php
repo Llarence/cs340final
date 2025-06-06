@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("location: index.php");
                 exit();
             } else {
-                echo "Error deleting the employee";
+                echo "Error deleting the customer";
             }
         }
     }
