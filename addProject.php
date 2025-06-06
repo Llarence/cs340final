@@ -1,4 +1,5 @@
 ﻿<?php
+/* Group 34: Devin Macomb and Kai Turner */
 session_start();
 ob_start();
 $Ssn = $_SESSION["Ssn"];

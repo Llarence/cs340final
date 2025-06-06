@@ -1,4 +1,5 @@
 <?php
+/* Group 34: Devin Macomb and Kai Turner */
 // Include config file
 require_once "config.php";
 

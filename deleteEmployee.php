@@ -1,4 +1,5 @@
 <?php
+/* Group 34: Devin Macomb and Kai Turner */
 session_start();
 if (isset($_GET["Ssn"]) && !empty(trim($_GET["Ssn"]))) {
     $_SESSION["Ssn"] = $_GET["Ssn"];

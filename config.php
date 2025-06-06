@@ -1,4 +1,5 @@
 <?php
+/* Group 34: Devin Macomb and Kai Turner */
 
 /* Display Errors */
 //ini_set('display_errors', 1);
