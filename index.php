@@ -44,15 +44,9 @@ session_start();
             <div class="row">
                 <div class="col-md-12">
 		    <div class="page-header clearfix">
-		     <h2> Sample Project CS 340 </h2> 
-                       <p> Project should include CRUD operations. In this website you can:
-				<ol> 	<li> CREATE new employess and  dependents </li>
-					<li> RETRIEVE all dependents and prjects for an employee</li>
-                                        <li> UPDATE employeee and dependent records</li>
-					<li> DELETE employee and dependent records </li>
-				</ol>
-		       <h2 class="pull-left">Employee Details</h2>
-                        <a href="createEmployee.php" class="btn btn-success pull-right">Add New Employee</a>
+		     <h2> Train Database </h2> 
+		       <h2 class="pull-left">Customers</h2>
+                        <a href="createCustomer.php" class="btn btn-success pull-right">Add New Customer</a>
                     </div>
                     <?php
                 // Include config file

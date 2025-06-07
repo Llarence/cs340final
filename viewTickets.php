@@ -74,6 +74,7 @@ if (isset($_SESSION["cid"])) {
                 echo "<th width = 8%>trid</th>";
                 echo "<th width = 8%>rid</th>";
                 echo "<th width = 10%>carry_on</th>";
+                echo "<th width = 8%>Action</th>";
                 echo "</tr>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -89,7 +90,6 @@ if (isset($_SESSION["cid"])) {
                     echo "<td>" . $row['carry_on'] . "</td>";
                     echo "<td>";
                     echo "<a href='deleteTickets.php?tid=". $row['tid'] ."' title='Delete Ticket' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
-                    echo "<td>";
                     echo "</tr>";
                 }
                 echo "</tbody>";
