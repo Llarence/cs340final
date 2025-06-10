@@ -106,42 +106,6 @@ if ($result = mysqli_query($link, $sql)) {
 } else {
     echo "ERROR: Could not able to execute $sql. <br>" . mysqli_error($link);
 }
-echo "<br> <h2> Department Stats </h2> <br>";
-
-// Select Department Stats
-// You will need to Create a DEPT_STATS table
-
-$sql2 = "SELECT * FROM DEPT_STATS";
-if ($result2 = mysqli_query($link, $sql2)) {
-    if (mysqli_num_rows($result2) > 0) {
-        echo "<div class='col-md-4'>";
-        echo "<table width=30% class='table table-bordered table-striped'>";
-        echo "<thead>";
-        echo "<tr>";
-        echo "<th width=20%>Dno</th>";
-        echo "<th width = 20%>Number of Employees</th>";
-        echo "<th width = 40%>Average Salary</th>";
-
-        echo "</thead>";
-        echo "<tbody>";
-        while ($row = mysqli_fetch_array($result2)) {
-            echo "<tr>";
-            echo "<td>" . $row['Dnumber'] . "</td>";
-            echo "<td>" . $row['Emp_count'] . "</td>";
-            echo "<td>" . $row['Avg_salary'] . "</td>";
-
-            echo "</tr>";
-        }
-        echo "</tbody>";
-        echo "</table>";
-        // Free result set
-        mysqli_free_result($result2);
-    } else {
-        echo "<p class='lead'><em>No records were found for Dept Stats.</em></p>";
-    }
-} else {
-    echo "ERROR: Could not able to execute $sql2. <br>" . mysqli_error($link);
-}
 
 // Close connection
 mysqli_close($link);
