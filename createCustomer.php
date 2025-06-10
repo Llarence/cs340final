@@ -4,8 +4,8 @@
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$$email = $name = $cc = $emergency_contact = "";
-$$email_err = $name_err = $cc_err = $emergency_contact_err = "" ;
+$email = $name = $cc = $emergency_contact = "";
+$email_err = $name_err = $cc_err = $emergency_contact_err = "" ;
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
