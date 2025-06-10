@@ -45,7 +45,7 @@ session_start();
                 <div class="col-md-12">
 		    <div class="page-header clearfix">
 		     <h2> Train Database </h2> 
-		       <h2 class="pull-left">Customers</h2>9Bp2kFeJP+bU_NU
+		       <h2 class="pull-left">Customers</h2>
                         <a href="createCustomer.php" class="btn btn-success pull-right">Add New Customer</a>
                     </div>
                     <?php
