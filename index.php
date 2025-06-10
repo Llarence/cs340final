@@ -53,7 +53,7 @@ session_start();
                 <a href="trainRouteList.php" class="btn btn-info">View Routes by Train</a>
             </div>
 
-		       <h2 class="pull-left">Customers</h2>9Bp2kFeJP+bU_NU
+		       <h2 class="pull-left">Customers</h2>
                         <a href="createCustomer.php" class="btn btn-success pull-right">Add New Customer</a>
                     </div>
                     <?php
