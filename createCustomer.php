@@ -4,8 +4,8 @@
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$$email = $name = $emergency_contact = "";
-$$email_err = $name_err = $emergency_contact_err = "" ;
+$$email = $name = $cc = $emergency_contact = "";
+$$email_err = $name_err = $cc_err = $emergency_contact_err = "" ;
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -21,6 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($email)) {
         $email_err = "Please enter a email.";
     }
+    $cc = trim($_POST["cc"]);
+    if (empty($cc)) {
+        $cc_err = "Please enter a credit_card.";
+    }
     // Validate Last name
     $emergency_contact = trim($_POST["emergency_contact"]);
     if (empty($emergency_contact)) {
@@ -31,21 +35,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($email_err) && empty($name_err) && empty($emergency_contact_err)) {
         // Prepare an insert statement
         $sql = "INSERT INTO customers (cid, name, email, credit_card, emergency_contact) 
-		        VALUES (NULL, ?, ?, '', ?)";
+		        VALUES (NULL, ?, ?, ?, ?)";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param(
                 $stmt,
-                "sss",
+                "ssss",
                 $param_name,
                 $param_email,
+                $param_cc,
                 $param_emergency_contact,
             );
 
             // Set parameters
             $param_email = $email;
             $param_name = $name;
+            $param_cc = $cc;
             $param_emergency_contact = $emergency_contact;
 
             // Attempt to execute the prepared statement
@@ -91,17 +97,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Please fill this form and submit to add an Employee record to the database.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 						<div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-                            <label>name</label>
+                            <label>Name</label>
                             <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
                             <span class="help-block"><?php echo $name_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                            <label>email</label>
+                            <label>Email</label>
                             <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
                             <span class="help-block"><?php echo $email_err;?></span>
                         </div>
+						<div class="form-group <?php echo (!empty($cc_err)) ? 'has-error' : ''; ?>">
+                            <label>Credit Card</label>
+                            <input type="text" name="cc" class="form-control" value="<?php echo $cc; ?>">
+                            <span class="help-block"><?php echo $cc_err;?></span>
+                        </div>
 						<div class="form-group <?php echo (!empty($emergency_contact_err)) ? 'has-error' : ''; ?>">
-                            <label>emergency_contact</label>
+                            <label>Emergency Contact</label>
                             <input type="text" name="emergency_contact" class="form-control" value="<?php echo $emergency_contact; ?>">
                             <span class="help-block"><?php echo $emergency_contact_err;?></span>
                         </div>

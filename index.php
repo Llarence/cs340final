@@ -45,7 +45,7 @@ session_start();
                 <div class="col-md-12">
 		    <div class="page-header clearfix">
 		     <h2> Train Database </h2> 
-		       <h2 class="pull-left">Customers</h2>
+		       <h2 class="pull-left">Customers</h2>9Bp2kFeJP+bU_NU
                         <a href="createCustomer.php" class="btn btn-success pull-right">Add New Customer</a>
                     </div>
                     <?php
@@ -59,7 +59,7 @@ session_start();
     $sql = "SELECT Ssn,Fname,Lname,Salary, Address, Bdate, PayLevel(Ssn) as Level, Super_ssn, Dno
         FROM EMPLOYEE";
 */
-$sql = "SELECT cid, name, email, emergency_contact FROM customers";
+$sql = "SELECT * FROM customers";
 if ($result = mysqli_query($link, $sql)) {
     if (mysqli_num_rows($result) > 0) {
         echo "<table class='table table-bordered table-striped'>";
@@ -68,6 +68,7 @@ if ($result = mysqli_query($link, $sql)) {
         echo "<th width=8%>cid</th>";
         echo "<th width=10%>name</th>";
         echo "<th width=10%>email</th>";
+        echo "<th width=10%>credit_card</th>";
         echo "<th width=15%>emergency_contact</th>";
         echo "<th width=10%>Action</th>";
         echo "</tr>";
@@ -78,6 +79,7 @@ if ($result = mysqli_query($link, $sql)) {
             echo "<td>" . $row['cid'] . "</td>";
             echo "<td>" . $row['name'] . "</td>";
             echo "<td>" . $row['email'] . "</td>";
+            echo "<td>" . $row['credit_card'] . "</td>";
             echo "<td>" . $row['emergency_contact'] . "</td>";
             echo "<td>";
             echo "<a href='viewTickets.php?cid=". $row['cid']."' title='View Tickets' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";

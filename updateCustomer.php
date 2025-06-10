@@ -6,8 +6,8 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 // Note: You can not update SSN
-$email = $name = $ec = "";
-$email_err = $name_err = $ec_err = "" ;
+$email = $name = $cc = $ec = "";
+$email_err = $name_err = $cc_err = $ec_err = "" ;
 // Form default values
 
 if (isset($_GET["cid"]) && !empty(trim($_GET["cid"]))) {
@@ -31,6 +31,7 @@ if (isset($_GET["cid"]) && !empty(trim($_GET["cid"]))) {
 
                 $name = $row['name'];
                 $email = $row['email'];
+                $cc = $row['credit_card'];
                 $ec = $row['emergency_contact'];
             }
         }
@@ -56,20 +57,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_err = "Please enter an email.";
     }
     // Validate Address
+    $cc = trim($_POST["cc"]);
+    if (empty($cc)) {
+        $cc_err = "Please enter a credit card.";
+    }
+    // Validate Address
     $ec = trim($_POST["ec"]);
+    if (empty($ec)) {
+        $ec_err = "Please enter an emergency contact.";
+    }
 
     // Check input errors before inserting into database
     if (empty($name_err) && empty($email_err) && empty($Address_err) && empty($Salary_err) && empty($Dno_err)) {
         // Prepare an update statement
-        $sql = "UPDATE customers SET name=?, email=?, emergency_contact=? WHERE cid=?";
+        $sql = "UPDATE customers SET name=?, email=?, credit_card=?, emergency_contact=? WHERE cid=?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssi", $param_name, $param_email, $param_ec, $param_cid);
+            mysqli_stmt_bind_param($stmt, "ssssi", $param_name, $param_email, $param_cc, $param_ec, $param_cid);
 
             // Set parameters
             $param_name = $name;
             $param_email = $email;
+            $param_cc = $cc;
             $param_ec = $ec;
 
             // Attempt to execute the prepared statement
@@ -114,6 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     $name = $row['name'];
                     $email = $row['email'];
+                    $cc = $row['credit_card'];
                     $ec = $row['emergency_contact'];
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
@@ -161,17 +172,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Please edit the input values and submit to update.
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 						<div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-                            <label>First Name</label>
+                            <label>Name</label>
                             <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
                             <span class="help-block"><?php echo $name_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                            <label>Last Name</label>
+                            <label>Email</label>
                             <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
                             <span class="help-block"><?php echo $email_err;?></span>
                         </div>
+						<div class="form-group <?php echo (!empty($cc_err)) ? 'has-error' : ''; ?>">
+                            <label>Credit Card</label>
+                            <input type="text" name="cc" class="form-control" value="<?php echo $cc; ?>">
+                            <span class="help-block"><?php echo $cc_err;?></span>
+                        </div>
 						<div class="form-group <?php echo (!empty($ec_err)) ? 'has-error' : ''; ?>">
-                            <label>emergency_contact</label>
+                            <label>Emergency Contact</label>
                             <input type="text" name="ec" class="form-control" value="<?php echo $ec; ?>">
                             <span class="help-block"><?php echo $ec_err;?></span>
                         </div>
