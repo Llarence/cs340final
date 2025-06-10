@@ -45,6 +45,14 @@ session_start();
                 <div class="col-md-12">
 		    <div class="page-header clearfix">
 		     <h2> Train Database </h2> 
+             <div class="btn-group" role="group" aria-label="Train Database Navigation">
+                <a href="manageTrains.php" class="btn btn-primary">Manage Trains</a>
+                <a href="manageStations.php" class="btn btn-primary">Manage Stations</a>
+                <a href="manageRoutes.php" class="btn btn-primary">Manage Routes</a>
+                <a href="addRoutesToTrain.php" class="btn btn-info">Add Route to Train</a>
+                <a href="trainRouteList.php" class="btn btn-info">View Routes by Train</a>
+            </div>
+
 		       <h2 class="pull-left">Customers</h2>
                         <a href="createCustomer.php" class="btn btn-success pull-right">Add New Customer</a>
                     </div>
