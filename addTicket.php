@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("location: index.php");
                 exit();
             } else {
-                echo "<center><h4>Error while creating new ticket</h4></center>";
+                echo "<center><h4>Error while creating new ticket: " . mysqli_stmt_error($stmt) . "</h4></center>";
                 $name_err = "Re-enter all values";
             }
         }

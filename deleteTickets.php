@@ -73,8 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="alert alert-danger fade in">
                             <input type="hidden" name="tid" value="<?php echo($_SESSION["tid"]); ?>"/>
                             <p>Are you sure you want to delete the record for the ticket with id 
-							     <?php echo($_SESSION["tid"]);
-echo " ".$tid; ?>?</p><br>
+							     <?php echo($_SESSION["tid"]);?>
                                 <input type="submit" value="Yes" class="btn btn-danger">
                                 <a href="index.php" class="btn btn-default">No</a>
                             </p>

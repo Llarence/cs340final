@@ -49,10 +49,11 @@ session_start();
                 <a href="manageTrains.php" class="btn btn-primary">Manage Trains</a>
                 <a href="manageStations.php" class="btn btn-primary">Manage Stations</a>
                 <a href="manageRoutes.php" class="btn btn-primary">Manage Routes</a>
-                <a href="addRoutesToTrain.php" class="btn btn-info">Add Route to Train</a>
-                <a href="trainRouteList.php" class="btn btn-info">View Routes by Train</a>
-                <a href="createRouteTo.php" class="btn btn-info">Add new route and station</a>
+                <a href="addRoutesToTrain.php" class="btn btn-info">Add Route To Train</a>
+                <a href="trainRouteList.php" class="btn btn-info">View Routes By Train</a>
+                <a href="createRouteTo.php" class="btn btn-info">Add New Route And Station</a>
             </div>
+              <br>
 
 		       <h2 class="pull-left">Customers</h2>
                         <a href="createCustomer.php" class="btn btn-success pull-right">Add New Customer</a>
