@@ -51,6 +51,7 @@ session_start();
                 <a href="manageRoutes.php" class="btn btn-primary">Manage Routes</a>
                 <a href="addRoutesToTrain.php" class="btn btn-info">Add Route to Train</a>
                 <a href="trainRouteList.php" class="btn btn-info">View Routes by Train</a>
+                <a href="createRouteTo.php" class="btn btn-info">Add new route and station</a>
             </div>
 
 		       <h2 class="pull-left">Customers</h2>

@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check input errors before inserting into database
-    if (empty($name_err) && empty($email_err) && empty($Address_err) && empty($Salary_err) && empty($Dno_err)) {
+    if (empty($name_err) && empty($email_err) && empty($cc_err) && empty($ec_err)) {
         // Prepare an update statement
         $sql = "UPDATE customers SET name=?, email=?, credit_card=?, emergency_contact=? WHERE cid=?";
 
