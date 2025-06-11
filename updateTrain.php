@@ -6,33 +6,33 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 // Note: You can not update SSN
-$email = $name = $cc = $ec = "";
-$email_err = $name_err = $cc_err = $ec_err = "" ;
+$name = $type = $cc = $pc = "";
+$name_err = $type_err = $cc_err = $pc_err = "" ;
 // Form default values
 
-if (isset($_GET["cid"]) && !empty(trim($_GET["cid"]))) {
-    $_SESSION["cid"] = $_GET["cid"];
+if (isset($_GET["trid"]) && !empty(trim($_GET["trid"]))) {
+    $_SESSION["trid"] = $_GET["trid"];
 
-    // Prepare a select statement
-    $sql1 = "SELECT * FROM customers WHERE cid = ?";
+    // Prepare a selpct statement
+    $sql1 = "SELECT * FROM trains WHERE trid = ?";
 
     if ($stmt1 = mysqli_prepare($link, $sql1)) {
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt1, "s", $param_cid);
+        mysqli_stmt_bind_param($stmt1, "s", $param_trid);
         // Set parameters
-        $param_cid = trim($_GET["cid"]);
+        $param_trid = trim($_GET["trid"]);
 
-        // Attempt to execute the prepared statement
+        // Attempt to expcute the prepared statement
         if (mysqli_stmt_execute($stmt1)) {
             $result1 = mysqli_stmt_get_result($stmt1);
             if (mysqli_num_rows($result1) > 0) {
 
                 $row = mysqli_fetch_array($result1);
 
+                $type = $row['type'];
                 $name = $row['name'];
-                $email = $row['email'];
-                $cc = $row['credit_card'];
-                $ec = $row['emergency_contact'];
+                $cc = $row['cargo_cars'];
+                $pc = $row['passenger_cars'];
             }
         }
     }
@@ -42,49 +42,47 @@ if (isset($_GET["cid"]) && !empty(trim($_GET["cid"]))) {
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // the id is hidden and can not be changed
-    $cid = $_SESSION["cid"];
+    $trid = $_SESSION["trid"];
     // Validate form data this is similar to the create Employee file
-    // Validate name
-    $name = trim($_POST["name"]);
+    // Validate type
+    $type = trim($_POST["type"]);
 
-    if (empty($name)) {
-        $name_err = "Please enter a name.";
-    } elseif (!filter_var($name, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/^[a-zA-Z\s]+$/")))) {
-        $name_err = "Please enter a valid name.";
+    if (empty($type)) {
+        $type_err = "Please enter a type.";
     }
-    $email = trim($_POST["email"]);
-    if (empty($email)) {
-        $email_err = "Please enter an email.";
+    $name = trim($_POST["name"]);
+    if (empty($name)) {
+        $name_err = "Please enter an name.";
     }
     // Validate Address
     $cc = trim($_POST["cc"]);
     if (empty($cc)) {
-        $cc_err = "Please enter a credit card.";
+        $cc_err = "Please enter cargo cars.";
     }
     // Validate Address
-    $ec = trim($_POST["ec"]);
-    if (empty($ec)) {
-        $ec_err = "Please enter an emergency contact.";
+    $pc = trim($_POST["pc"]);
+    if (empty($pc)) {
+        $pc_err = "Please enter passenger cars.";
     }
 
-    // Check input errors before inserting into database
-    if (empty($name_err) && empty($email_err) && empty($Address_err) && empty($Salary_err) && empty($Dno_err)) {
+    // Chpck input errors before inserting into database
+    if (empty($type_err) && empty($name_err) && empty($Address_err) && empty($Salary_err) && empty($Dno_err)) {
         // Prepare an update statement
-        $sql = "UPDATE customers SET name=?, email=?, credit_card=?, emergency_contact=? WHERE cid=?";
+        $sql = "UPDATE trains SET type=?, name=?, cargo_cars=?, passenger_cars=? WHERE trid=?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssi", $param_name, $param_email, $param_cc, $param_ec, $param_cid);
+            mysqli_stmt_bind_param($stmt, "ssiii", $param_type, $param_name, $param_cc, $param_pc, $param_trid);
 
             // Set parameters
+            $param_type = $type;
             $param_name = $name;
-            $param_email = $email;
             $param_cc = $cc;
-            $param_ec = $ec;
+            $param_pc = $pc;
 
-            // Attempt to execute the prepared statement
+            // Attempt to expcute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
-                // Records updated successfully. Redirect to landing page
+                // Rpcords updated successfully. Redirpct to landing page
                 header("location: index.php");
                 exit();
             } else {
@@ -95,53 +93,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_close($stmt);
     }
 
-    // Close connection
+    // Close connpction
     mysqli_close($link);
 } else {
 
-    // Check existence of sID parameter before processing further
+    // Chpck existence of sID parameter before processing further
     // Form default values
 
-    if (isset($_GET["cid"]) && !empty(trim($_GET["cid"]))) {
-        $_SESSION["cid"] = $_GET["cid"];
-        $cid = $_SESSION["cid"];
+    if (isset($_GET["trid"]) && !empty(trim($_GET["trid"]))) {
+        $_SESSION["trid"] = $_GET["trid"];
+        $trid = $_SESSION["trid"];
 
-        // Prepare a select statement
-        $sql1 = "SELECT * FROM customers WHERE cid = ?";
+        // Prepare a selpct statement
+        $sql1 = "SELECT * FROM trains WHERE trid = ?";
 
         if ($stmt1 = mysqli_prepare($link, $sql1)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt1, "s", $param_cid);
+            mysqli_stmt_bind_param($stmt1, "s", $param_trid);
             // Set parameters
-            $param_cid = trim($_GET["cid"]);
+            $param_trid = trim($_GET["trid"]);
 
-            // Attempt to execute the prepared statement
+            // Attempt to expcute the prepared statement
             if (mysqli_stmt_execute($stmt1)) {
                 $result1 = mysqli_stmt_get_result($stmt1);
                 if (mysqli_num_rows($result1) == 1) {
 
                     $row = mysqli_fetch_array($result1);
 
+                    $type = $row['type'];
                     $name = $row['name'];
-                    $email = $row['email'];
-                    $cc = $row['credit_card'];
-                    $ec = $row['emergency_contact'];
+                    $cc = $row['cargo_cars'];
+                    $pc = $row['passenger_cars'];
                 } else {
-                    // URL doesn't contain valid id. Redirect to error page
+                    // URL doesn't contain valid id. Redirpct to error page
                     header("location: error.php");
                     exit();
                 }
             } else {
-                echo "Error in cid while updating";
+                echo "Error in trid while updating";
             }
         }
         // Close statement
         mysqli_stmt_close($stmt1);
 
-        // Close connection
+        // Close connpction
         mysqli_close($link);
     } else {
-        // URL doesn't contain id parameter. Redirect to error page
+        // URL doesn't contain id parameter. Redirpct to error page
         header("location: error.php");
         exit();
     }
@@ -167,31 +165,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h3>Update Record for CID =  <?php echo $_GET["cid"]; ?> </H3>
+                        <h3>Update Record for TRID =  <?php echo $_GET["trid"]; ?> </H3>
                     </div>
                     <p>Please edit the input values and submit to update.
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+						<div class="form-group <?php echo (!empty($type_err)) ? 'has-error' : ''; ?>">
+                            <label>Type</label>
+                            <input type="text" name="type" class="form-control" value="<?php echo $type; ?>">
+                            <span class="help-block"><?php echo $name_err;?></span>
+                        </div>
 						<div class="form-group <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
                             <label>Name</label>
                             <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
                             <span class="help-block"><?php echo $name_err;?></span>
                         </div>
-						<div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                            <label>Email</label>
-                            <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
-                            <span class="help-block"><?php echo $email_err;?></span>
-                        </div>
 						<div class="form-group <?php echo (!empty($cc_err)) ? 'has-error' : ''; ?>">
-                            <label>Credit Card</label>
+                            <label>Cargo Cars</label>
                             <input type="text" name="cc" class="form-control" value="<?php echo $cc; ?>">
                             <span class="help-block"><?php echo $cc_err;?></span>
                         </div>
-						<div class="form-group <?php echo (!empty($ec_err)) ? 'has-error' : ''; ?>">
-                            <label>Emergency Contact</label>
-                            <input type="text" name="ec" class="form-control" value="<?php echo $ec; ?>">
-                            <span class="help-block"><?php echo $ec_err;?></span>
+						<div class="form-group <?php echo (!empty($pc_err)) ? 'has-error' : ''; ?>">
+                            <label>Passenger Cargs</label>
+                            <input type="text" name="pc" class="form-control" value="<?php echo $pc; ?>">
+                            <span class="help-block"><?php echo $pc_err;?></span>
                         </div>
-                        <input type="hidden" name="cid" value="<?php echo $cid; ?>"/>
+                        <input type="hidden" name="trid" value="<?php echo $trid; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-default">Cancel</a>
                     </form>

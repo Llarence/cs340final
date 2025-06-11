@@ -7,32 +7,38 @@ error_reporting(E_ALL);
 require_once "config.php";
 
 // --- FUNCTIONS ---
-function readTrains($link) {
+function readTrains($link)
+{
     $sql = "SELECT * FROM trains";
     $result = mysqli_query($link, $sql);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-function prepareTrainDeletion($link, $trainId) {
+function prepareTrainDeletion($link, $trainId)
+{
     $sql = "DELETE FROM tickets WHERE trid = ?";
     $stmt = mysqli_prepare($link, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $trainId);
     return mysqli_stmt_execute($stmt);
 }
 
-function addTrain($link, $type, $name, $cargoCars, $passengerCars) {
+function addTrain($link, $type, $name, $cargoCars, $passengerCars)
+{
     $sql = "INSERT INTO trains (type, name, cargo_cars, passenger_cars) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($link, $sql);
     mysqli_stmt_bind_param($stmt, 'ssii', $type, $name, $cargoCars, $passengerCars);
     return mysqli_stmt_execute($stmt);
 }
 
-function deleteOrphanTrains($link) {
+function deleteOrphanTrains($link)
+{
     // Step 1: Find orphan trains (trains not in tickets)
     $sql = "SELECT trid FROM trains 
             WHERE trid NOT IN (SELECT DISTINCT trid FROM tickets)";
     $result = mysqli_query($link, $sql);
-    if (!$result) return false;
+    if (!$result) {
+        return false;
+    }
 
     while ($row = mysqli_fetch_assoc($result)) {
         $trid = $row['trid'];
@@ -108,7 +114,7 @@ $trains = readTrains($link);
     <h4>Current Trains</h4>
     <table class="table table-bordered">
         <thead>
-            <tr><th>ID</th><th>Type</th><th>Name</th><th>Cargo Cars</th><th>Passenger Cars</th></tr>
+            <tr><th>ID</th><th>Type</th><th>Name</th><th>Cargo Cars</th><th>Passenger Cars</th><th>Action</th></tr>
         </thead>
         <tbody>
             <?php foreach ($trains as $t): ?>
@@ -118,6 +124,7 @@ $trains = readTrains($link);
                     <td><?= $t['name'] ?></td>
                     <td><?= $t['cargo_cars'] ?></td>
                     <td><?= $t['passenger_cars'] ?></td>
+<td><a href='updateTrain.php?trid=<?= $t['trid'] ?>' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

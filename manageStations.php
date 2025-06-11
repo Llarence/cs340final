@@ -7,13 +7,15 @@ error_reporting(E_ALL);
 require_once "config.php";
 
 // --- FUNCTIONS ---
-function readStations($link) {
+function readStations($link)
+{
     $sql = "SELECT * FROM stations";
     $result = mysqli_query($link, $sql);
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-function prepareStationDeletion($link, $stationId) {
+function prepareStationDeletion($link, $stationId)
+{
     $routesSql = "SELECT rid FROM routes WHERE station1 = ? OR station2 = ?";
     $stmt = mysqli_prepare($link, $routesSql);
     mysqli_stmt_bind_param($stmt, 'ii', $stationId, $stationId);
@@ -32,7 +34,8 @@ function prepareStationDeletion($link, $stationId) {
     mysqli_stmt_execute($stmt);
 }
 
-function deleteOrphanStations($link) {
+function deleteOrphanStations($link)
+{
     $sql = "DELETE FROM stations 
             WHERE sid NOT IN (
                 SELECT station1 FROM routes
@@ -42,7 +45,8 @@ function deleteOrphanStations($link) {
     return mysqli_query($link, $sql);
 }
 
-function addStation($link, $name, $latitude, $longitude) {
+function addStation($link, $name, $latitude, $longitude)
+{
     $sql = "INSERT INTO stations (name, latitude, longitude) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($link, $sql);
     mysqli_stmt_bind_param($stmt, 'sdd', $name, $latitude, $longitude);
@@ -109,7 +113,7 @@ $stations = readStations($link);
     <h3>Current Stations</h3>
     <table class="table table-bordered">
         <thead>
-            <tr><th>ID</th><th>Name</th><th>Lat</th><th>Lon</th></tr>
+            <tr><th>ID</th><th>Name</th><th>Lat</th><th>Lon</th><th>Action</th></tr>
         </thead>
         <tbody>
             <?php foreach ($stations as $s): ?>
@@ -118,6 +122,7 @@ $stations = readStations($link);
                     <td><?= $s['name'] ?></td>
                     <td><?= $s['latitude'] ?></td>
                     <td><?= $s['longitude'] ?></td>
+<td><a href='updateStation.php?sid=<?= $t['sid'] ?>' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
