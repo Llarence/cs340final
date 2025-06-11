@@ -69,7 +69,7 @@ session_start();
     $sql = "SELECT Ssn,Fname,Lname,Salary, Address, Bdate, PayLevel(Ssn) as Level, Super_ssn, Dno
         FROM EMPLOYEE";
 */
-$sql = "SELECT * FROM customers";
+$sql = "SELECT customers.*, COUNT(tickets.tid) as tickets FROM customers LEFT JOIN tickets ON customers.cid=tickets.cid GROUP BY customers.cid";
 if ($result = mysqli_query($link, $sql)) {
     if (mysqli_num_rows($result) > 0) {
         echo "<table class='table table-bordered table-striped'>";
@@ -80,7 +80,8 @@ if ($result = mysqli_query($link, $sql)) {
         echo "<th width=10%>email</th>";
         echo "<th width=10%>credit_card</th>";
         echo "<th width=15%>emergency_contact</th>";
-        echo "<th width=10%>Action</th>";
+        echo "<th width=8%>tickets</th>";
+        echo "<th width=10%>action</th>";
         echo "</tr>";
         echo "</thead>";
         echo "<tbody>";
@@ -91,6 +92,7 @@ if ($result = mysqli_query($link, $sql)) {
             echo "<td>" . $row['email'] . "</td>";
             echo "<td>" . $row['credit_card'] . "</td>";
             echo "<td>" . $row['emergency_contact'] . "</td>";
+            echo "<td>" . $row['tickets'] . "</td>";
             echo "<td>";
             echo "<a href='viewTickets.php?cid=". $row['cid']."' title='View Tickets' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
             echo "<a href='updateCustomer.php?cid=". $row['cid'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";

@@ -1,4 +1,5 @@
 <?php
+/* Group 34: Devin Macomb and Kai Turner */
 require_once "config.php";
 
 // Fetch all trains with their routes
