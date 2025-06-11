@@ -22,9 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_err = "Please enter a email.";
     }
     $cc = trim($_POST["cc"]);
-    if (empty($cc)) {
-        $cc_err = "Please enter a credit_card.";
-    }
     // Validate Last name
     $emergency_contact = trim($_POST["emergency_contact"]);
     if (empty($emergency_contact)) {

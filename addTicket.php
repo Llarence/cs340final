@@ -109,24 +109,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              
 						<div class="form-group <?php echo (!empty($carry_on_err)) ? 'has-error' : ''; ?>">
                             <label>carry on</label>
-                            <input type="text" name="carry_on" class="form-control" value="<?php echo $carry_on; ?>">
+                            <input type="text" name="Carry On" class="form-control" value="<?php echo $carry_on; ?>">
                             <span class="help-block"><?php echo $carry_on_err;?></span>
                         </div>
 						<div class="form-group <?php echo (!empty($trid_err)) ? 'has-error' : ''; ?>">
                             <label>trid</label>
-                            <input type="text" name="trid" class="form-control" value="<?php echo $trid; ?>">
+                            <input type="text" name="Trid" class="form-control" value="<?php echo $trid; ?>">
                             <span class="help-block"><?php echo $trid_err;?></span>
                         </div>
 				
 						<div class="form-group <?php echo (!empty($rid_err)) ? 'has-error' : ''; ?>">
                             <label>rid</label>
-                            <input type="text" name="rid" class="form-control" value="<?php echo $rid; ?>">
+                            <input type="text" name="Rid" class="form-control" value="<?php echo $rid; ?>">
                             <span class="help-block"><?php echo $rid_err;?></span>
                         </div>
 						                  
 						<div class="form-group <?php echo (!empty($departure_err)) ? 'has-error' : ''; ?>">
                             <label>departure</label>
-                            <input type="date" name="departure" class="form-control" value="<?php echo date('Y-m-d'); ?>">
+                            <input type="date" name="Departure" class="form-control" value="<?php echo date('Y-m-d'); ?>">
                             <span class="help-block"><?php echo $departure_err;?></span>
                         </div>
               
