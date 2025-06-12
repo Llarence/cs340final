@@ -101,7 +101,6 @@ $stations = readStations($link);
         <input type="text" name="name" class="form-control" placeholder="Station Name" required>
         <input type="number" step="any" name="latitude" class="form-control" placeholder="Latitude">
         <input type="number" step="any" name="longitude" class="form-control" placeholder="Longitude">
-        <button class="btn btn-success" name="add_station">Add Station</button>
         </form>
     <br>
 
@@ -122,7 +121,6 @@ $stations = readStations($link);
                     <td><?= $s['name'] ?></td>
                     <td><?= $s['latitude'] ?></td>
                     <td><?= $s['longitude'] ?></td>
-<td><a href='updateStation.php?sid=<?= $t['sid'] ?>' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
