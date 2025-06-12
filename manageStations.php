@@ -101,6 +101,7 @@ $stations = readStations($link);
         <input type="text" name="name" class="form-control" placeholder="Station Name" required>
         <input type="number" step="any" name="latitude" class="form-control" placeholder="Latitude">
         <input type="number" step="any" name="longitude" class="form-control" placeholder="Longitude">
+        <button class="btn btn-success" name="add_station">Add Station</button>
         </form>
     <br>
 
@@ -112,7 +113,7 @@ $stations = readStations($link);
     <h3>Current Stations</h3>
     <table class="table table-bordered">
         <thead>
-            <tr><th>ID</th><th>Name</th><th>Lat</th><th>Lon</th><th>Action</th></tr>
+            <tr><th>ID</th><th>Name</th><th>Lat</th><th>Lon</th></tr>
         </thead>
         <tbody>
             <?php foreach ($stations as $s): ?>
